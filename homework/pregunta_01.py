@@ -11,8 +11,7 @@ def pregunta_01():
 
 
     output_dir = os.path.abspath("./files/plots")  # Ruta absoluta
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    
 
     plt.Figure()
 
