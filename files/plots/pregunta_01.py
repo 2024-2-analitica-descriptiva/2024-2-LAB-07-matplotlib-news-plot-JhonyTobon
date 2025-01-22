@@ -1,52 +1,74 @@
 """
 Escriba el codigo que ejecute la accion solicitada en cada pregunta.
 """
+
 # pylint: disable=import-outside-toplevel
 
+
+def pregunta_01():
+    """
+    Siga las instrucciones del video https://youtu.be/qVdwpxG_JpE para
+    generar el archivo `files/plots/news.png`.
+
+    Un ejemplo de la grafica final esta ubicado en la raíz de
+    este repo.
+
+    El gráfico debe salvarse al archivo `files/plots/news.png`.
+
+    """
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
 def pregunta_01():
+    """
+    Genera el archivo `files/plots/news.png` siguiendo las instrucciones.
+    """
 
-
+    # Crear carpeta 'files/plots' si no existe
     output_dir = os.path.abspath("./files/plots")  # Ruta absoluta
     if not os.path.exists(output_dir):
+        print(f"Creando la carpeta: {output_dir}")
         os.makedirs(output_dir)
 
-    plt.Figure()
+    # Leer los datos
+    df = pd.read_csv("files/input/news.csv", index_col=0)
 
+    # Configuración de colores, zorders y grosores de líneas
     colors = {
-        'Television': 'dimgrey',
+        'Television': 'dimgray',
         'Newspaper': 'grey',
         'Internet': 'tab:blue',
-        'Radio': 'lightgrey'
-
+        'Radio': 'lightgrey',
     }
 
     zorder = {
         'Television': 1,
         'Newspaper': 1,
         'Internet': 2,
-        'Radio': 1
+        'Radio': 1,
     }
 
-    linewidths = {
-        'Television': 2,
+    linewidth = {
+        'Television': 1,
         'Newspaper': 2,
         'Internet': 4,
-        'Radio': 2
+        'Radio': 2,
     }
-    df= pd.read_csv('../files/input/news.csv', index_col=0)
-    for col in df.columns:
-        plt.plot(df[col],
-                color = colors[col], 
-                label = col,
-                zorder = zorder[col],
-                linewidth = linewidths[col],
-            )
 
-    plt.title('How people get their news', fontsize=16)
+    # Crear figura y graficar datos
+    plt.figure()
+
+    for col in df.columns:
+        plt.plot(
+            df[col],
+            color=colors[col],
+            label=col,
+            zorder=zorder[col],
+            linewidth=linewidth[col],
+        )
+
+    plt.title("How people get their news", fontsize=16)
     plt.gca().spines['top'].set_visible(False)
     plt.gca().spines['left'].set_visible(False)
     plt.gca().spines['right'].set_visible(False)
@@ -59,16 +81,14 @@ def pregunta_01():
             y=df[col][first_year],
             color=colors[col],
             zorder=zorder[col],
-            )
-        
+        )
         plt.text(
             first_year - 0.2,
             df[col][first_year],
-            col + ' ' + str(df[col][first_year]) + '%',
-            ha= 'right',
-            va= 'center',
-            color = colors[col],
-
+            col + " " + str(df[col][first_year]) + "%",
+            ha="right",
+            va="center",
+            color=colors[col],
         )
 
         last_year = df.index[-1]
@@ -76,24 +96,23 @@ def pregunta_01():
             x=last_year,
             y=df[col][last_year],
             color=colors[col],
-            )
-        
+        )
         plt.text(
             last_year + 0.2,
             df[col][last_year],
-            str(df[col][last_year]) + '%',
-            ha= 'left',
-            va= 'center',
-            color = colors[col],
-
+            str(df[col][last_year]) + "%",
+            ha="left",
+            va="center",
+            color=colors[col],
         )
 
     plt.xticks(
         ticks=df.index,
         labels=df.index,
-        ha='center'
+        ha='center',
     )
 
+    # Guardar el gráfico
     output_path = os.path.join(output_dir, "news.png")
 
     try:
@@ -103,16 +122,4 @@ def pregunta_01():
     except Exception as e:
         print(f"Error al guardar el gráfico: {e}")
 
-    plt.tight_layout()
-    plt.savefig('news.png')    
-    return  plt.Figure
-    """
-    Siga las instrucciones del video https://youtu.be/qVdwpxG_JpE para
-    generar el archivo `files/plots/news.png`.
 
-    Un ejemplo de la grafica final esta ubicado en la raíz de
-    este repo.
-
-    El gráfico debe salvarse al archivo `files/plots/news.png`.
-
-    """
