@@ -36,7 +36,7 @@ def pregunta_01():
         'Internet': 4,
         'Radio': 2
     }
-    df= pd.read_csv('../files/input/news.csv', index_col=0)
+    df= pd.read_csv('files/input/news.csv', index_col=0)
     for col in df.columns:
         plt.plot(df[col],
                 color = colors[col], 
